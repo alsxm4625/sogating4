@@ -22,6 +22,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
 
+@Suppress("DEPRECATION")
 class JoinActivity : AppCompatActivity() {
 
     private val TAG = "JoinActivity"
@@ -91,7 +92,6 @@ class JoinActivity : AppCompatActivity() {
                         uploadImage(uid)
 
 
-
                         //
 
                         val intent = Intent(this, MainActivity::class.java)
@@ -111,7 +111,7 @@ class JoinActivity : AppCompatActivity() {
     }
 
 
-    private fun uploadImage(uid : String) {
+    private fun uploadImage(uid : String){
 
         val storage = Firebase.storage
         val storageRef = storage.reference.child(uid + ".png")
@@ -120,6 +120,7 @@ class JoinActivity : AppCompatActivity() {
         // Get the data from an ImageView as bytes
         profileImage.isDrawingCacheEnabled = true
         profileImage.buildDrawingCache()
+
         val bitmap = (profileImage.drawable as BitmapDrawable).bitmap
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
@@ -128,9 +129,15 @@ class JoinActivity : AppCompatActivity() {
         var uploadTask = storageRef.putBytes(data)
         uploadTask.addOnFailureListener {
             // Handle unsuccessful uploads
-        }.addOnSuccessListener { taskSnapshot ->
+        }.addOnSuccessListener { _ ->
             // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
         }
 
+        // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+
+        }
+
+
     }
-}
+
+

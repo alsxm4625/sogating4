@@ -77,9 +77,9 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@color/white"
-                android:layout_margin="10dp">
+                android:layout_height="66dp"
+                android:layout_margin="10dp"
+                android:background="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nicknameArea"
@@ -142,11 +142,11 @@
             <Button
                 android:id="@+id/joinBtn"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="75dp"
                 android:layout_margin="10dp"
                 android:background="@color/mainColor"
-                android:textSize="30dp"
-                android:text="회원가입" />
+                android:text="회원가입"
+                android:textSize="30dp" />
 
 
         </LinearLayout>

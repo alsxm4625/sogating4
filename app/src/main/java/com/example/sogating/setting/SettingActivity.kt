@@ -16,6 +16,9 @@ class SettingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
 
+        //첫번째 방법으로는 앱에서 코드로 notification 띄우기
+
+
         val mybtn = findViewById<Button>(R.id.myPageBtn)
         mybtn.setOnClickListener {
 

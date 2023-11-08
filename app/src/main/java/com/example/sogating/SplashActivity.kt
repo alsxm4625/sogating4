@@ -7,7 +7,9 @@ import android.os.Handler
 import android.util.Log
 import com.example.sogating.auth.IntroActivity
 import com.example.sogating.utils.FirebaseAuthUtils
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 
 class SplashActivity : AppCompatActivity() {
 
@@ -21,6 +23,20 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
 //        val uid = auth.currentUser?.uid.toString()
+
+        //Token
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            Log.e(TAG, token.toString())
+        })
         val uid = FirebaseAuthUtils.getUid()
 
         if (uid == "null") {
