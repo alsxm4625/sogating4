@@ -7,11 +7,20 @@ import android.widget.ListView
 import android.widget.Toast
 import com.example.sogating.R
 import com.example.sogating.auth.UserDataModel
+import com.example.sogating.message.fcm.NotiModel
+import com.example.sogating.message.fcm.PushNotification
+import com.example.sogating.message.fcm.RetrofitInstance
 import com.example.sogating.utils.FirebaseAuthUtils
 import com.example.sogating.utils.FirebaseRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
+
 class MyLikeListActivity : AppCompatActivity() {
 
     private val TAG = "MyLikeListActivity"
@@ -45,6 +54,10 @@ class MyLikeListActivity : AppCompatActivity() {
 
 //            Log.d(TAG, likeUserList[position].uid.toString())
             checkMatching(likeUserList[position].uid.toString())
+
+            val notiModel = NotiModel("a", "b")
+            val pushModel = PushNotification(notiModel,likeUserList[position].token.toString() )
+            testPush(pushModel)
 
         }
 
@@ -141,5 +154,11 @@ class MyLikeListActivity : AppCompatActivity() {
 
     }
 
+    //PUSH
+    //PUSH
+    private fun testPush(notification : PushNotification) = CoroutineScope(Dispatchers.IO).launch {
 
+        RetrofitInstance.api.postNotification(notification)
+
+    }
 }

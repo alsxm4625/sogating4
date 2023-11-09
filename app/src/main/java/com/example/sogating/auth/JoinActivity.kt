@@ -14,15 +14,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.example.sogating.MainActivity
 import com.example.sogating.R
 import com.example.sogating.utils.FirebaseRef
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
 
-@Suppress("DEPRECATION")
 class JoinActivity : AppCompatActivity() {
 
     private val TAG = "JoinActivity"
@@ -79,23 +80,41 @@ class JoinActivity : AppCompatActivity() {
                         val user = auth.currentUser
                         uid = user?.uid.toString()
 
-                        val userModel = UserDataModel(
-                            uid,
-                            nickname,
-                            age,
-                            gender,
-                            city
-                        )
 
-                        FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+                        // Token
+                        FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                            OnCompleteListener { task ->
+                                if (!task.isSuccessful) {
+                                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                                    return@OnCompleteListener
+                                }
 
-                        uploadImage(uid)
+                                // Get new FCM registration token
+                                val token = task.result
+
+                                // Log and toast
+                                Log.e(TAG, token.toString())
+
+                                val userModel = UserDataModel(
+                                    uid,
+                                    nickname,
+                                    age,
+                                    gender,
+                                    city,
+                                    token
+                                )
+
+                                FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+
+                                uploadImage(uid)
 
 
-                        //
+                                //
 
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
+                                val intent = Intent(this, MainActivity::class.java)
+                                startActivity(intent)
+                            })
+
 
                     } else {
                         // If sign in fails, display a message to the user.
@@ -120,7 +139,6 @@ class JoinActivity : AppCompatActivity() {
         // Get the data from an ImageView as bytes
         profileImage.isDrawingCacheEnabled = true
         profileImage.buildDrawingCache()
-
         val bitmap = (profileImage.drawable as BitmapDrawable).bitmap
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
@@ -129,15 +147,8 @@ class JoinActivity : AppCompatActivity() {
         var uploadTask = storageRef.putBytes(data)
         uploadTask.addOnFailureListener {
             // Handle unsuccessful uploads
-        }.addOnSuccessListener { _ ->
+        }.addOnSuccessListener { taskSnapshot ->
             // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
         }
-
-        // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-
-        }
-
-
     }
-
-
+}
