@@ -15,8 +15,14 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/mymatchinglist"
+        android:id="@+id/myLikelist"
         android:text="MY MATCHING LIST"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/myMsg"
+        android:text="내가 받은 메시지"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import com.example.sogating.R
 import com.example.sogating.auth.IntroActivity
+import com.example.sogating.message.MyMsgActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -22,6 +23,14 @@ class SettingActivity : AppCompatActivity() {
         mybtn.setOnClickListener {
 
             val intent = Intent(this, MyPageActivity::class.java)
+            startActivity(intent)
+
+        }
+
+        val myMsg = findViewById<Button>(R.id.myMsg)
+        myMsg.setOnClickListener {
+
+            val intent = Intent(this, MyMsgActivity::class.java)
             startActivity(intent)
 
         }

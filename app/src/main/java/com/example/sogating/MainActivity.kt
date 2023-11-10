@@ -23,6 +23,7 @@ import com.example.sogating.slider.CardStackAdapter
 import com.example.sogating.utils.FirebaseAuthUtils
 import com.example.sogating.utils.FirebaseRef
 import com.bumptech.glide.Glide
+import com.example.sogating.utils.MyInfo
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -132,6 +133,8 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, data?.gender.toString())
 
                 currentUserGender = data?.gender.toString()
+
+                MyInfo.myNickname = data?.gender.toString()
 
                 getUserDataList(currentUserGender)
 
