@@ -5,8 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/auth_image"
     tools:context=".auth.LoginActivity"
+    android:background="@drawable/auth_image"
+
     android:orientation="vertical">
 
 
@@ -28,12 +29,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:counterMaxLength="10"
-        app:counterEnabled="true"
-        android:background="@color/white"
+        android:layout_height="81dp"
         android:layout_margin="10dp"
-        >
+        android:background="@color/white"
+        app:counterEnabled="true"
+        app:counterMaxLength="10">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/pwdArea"
@@ -49,7 +49,7 @@
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="61dp"
         android:layout_margin="10dp"
         android:background="@color/mainColor"
         android:text="로그인"

@@ -30,7 +30,7 @@
         <Button
             android:id="@+id/loginBtn"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="58dp"
             android:layout_margin="10dp"
             android:background="@color/mainColor"
             android:text="로그인"
