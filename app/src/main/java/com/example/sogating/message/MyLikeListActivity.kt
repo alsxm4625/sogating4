@@ -1,5 +1,6 @@
 package com.example.sogating.message
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.example.sogating.MainActivity
 import com.example.sogating.R
 import com.example.sogating.auth.UserDataModel
 import com.example.sogating.message.fcm.NotiModel
@@ -26,6 +28,8 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import okhttp3.Dispatcher
 
+// 내가 좋아요한 사람들이 나를 좋아요 한 리스트
+// 내가 민지, 현아, 다솜 -> 현아, 다솜
 class MyLikeListActivity : AppCompatActivity() {
 
     private val TAG = "MyLikeListActivity"
@@ -44,7 +48,7 @@ class MyLikeListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_my_like_list)
 
 
-        val userListView =  findViewById<ListView>(R.id.userListView)
+        val userListView = findViewById<ListView>(R.id.userListView)
 
         listviewAdapter = ListViewAdapter(this, likeUserList)
         userListView.adapter = listviewAdapter
@@ -57,18 +61,18 @@ class MyLikeListActivity : AppCompatActivity() {
         // 전체 유저 중에서, 내가 좋아요한 사람들 가져와서
         // 이 사람이 나와 매칭이 되어있는지 확인하는 것!!
 
-
-
-//       userListView.setOnItemClickListener { parent, view, position, id ->
+//        userListView.setOnItemClickListener { parent, view, position, id ->
 //
-//            Log.d(TAG, likeUserList[position].uid.toString())
-//          checkMatching(likeUserList[position].uid.toString())
-
-//        val notiModel = NotiModel("a", "b")
-//      val pushModel = PushNotification(notiModel,likeUserList[position].token.toString() )
-//    testPush(pushModel)
-
-//    }
+////            Log.d(TAG, likeUserList[position].uid.toString())
+//            checkMatching(likeUserList[position].uid.toString())
+//
+//            val notiModel = NotiModel("a", "b")
+//
+//            val pushModel = PushNotification(notiModel, likeUserList[position].token.toString())
+//
+//            testPush(pushModel)
+//
+//        }
 
         userListView.setOnItemLongClickListener { parent, view, position, id ->
 
@@ -79,11 +83,14 @@ class MyLikeListActivity : AppCompatActivity() {
             return@setOnItemLongClickListener(true)
         }
 
+        // 저기 내가 좋아요한 유저를 클릭하면은(Long Click)
+        // 만약에 서로 좋아요한 사람이 아니면은, 메세지 못 보내도록 함
+        // 메세지 보내기 창이 떠서 메세지를 보낼 수 있게 하고(당연히 받는 사람 부분 만들어줘야겠죠?)
+        // 메세지 보내고 상대방에서 PUSH 알람 띄워주고
+
+
+
     }
-
-    //내가 좋아요한 유저 클릭
-
-
 
     private fun checkMatching(otherUid : String){
 
@@ -95,7 +102,7 @@ class MyLikeListActivity : AppCompatActivity() {
 
                 if(dataSnapshot.children.count() == 0) {
 
-                    Toast.makeText(this@MyLikeListActivity, "상대방이 좋아요한 사람이 아무도 없어요.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MyLikeListActivity, "상대방이 좋아요한 사람이 아무도 없어요", Toast.LENGTH_LONG).show()
 
                 } else {
 
@@ -103,10 +110,11 @@ class MyLikeListActivity : AppCompatActivity() {
 
                         val likeUserKey = dataModel.key.toString()
                         if(likeUserKey.equals(uid)) {
-                            Toast.makeText(this@MyLikeListActivity, "매칭이 되었습니다.", Toast.LENGTH_LONG).show()
 
-                        // Dialog
+                            Toast.makeText(this@MyLikeListActivity, "매칭이 되었습니다.", Toast.LENGTH_LONG).show()
                             showDialog()
+
+                            // Dialog
 
                         } else {
 //                            Toast.makeText(this@MyLikeListActivity, "매칭이 되지 않았습니다.", Toast.LENGTH_LONG).show()
@@ -179,7 +187,6 @@ class MyLikeListActivity : AppCompatActivity() {
 
     }
 
-
     //PUSH
     private fun testPush(notification : PushNotification) = CoroutineScope(Dispatchers.IO).launch {
 
@@ -187,38 +194,42 @@ class MyLikeListActivity : AppCompatActivity() {
 
     }
 
-    //Dialog
+
+    // Dialog
     private fun showDialog(){
 
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
         val mBuilder = AlertDialog.Builder(this)
             .setView(mDialogView)
-            .setTitle("메시지 보내기")
+            .setTitle("메세지 보내기")
 
         val mAlertDialog = mBuilder.show()
 
-        val  btn = mAlertDialog.findViewById<Button>(R.id.sendBtnArea)
-        val textArea = mAlertDialog.findViewById<EditText>(R.id.sendBtnArea)
+        val btn = mAlertDialog.findViewById<Button>(R.id.sendBtnArea)
+        val textArea = mAlertDialog.findViewById<EditText>(R.id.sendTextArea)
         btn?.setOnClickListener {
 
             val msgText = textArea!!.text.toString()
 
-            val mgsModel = MsgModel(MyInfo.myNickname,msgText)
+            val mgsModel = MsgModel(MyInfo.myNickname, msgText)
 
             FirebaseRef.userMsgRef.child(getterUid).push().setValue(mgsModel)
 
-                 val notiModel = NotiModel(MyInfo.myNickname,msgText)
+            val notiModel = NotiModel(MyInfo.myNickname, msgText)
 
-                 val pushModel = PushNotification(notiModel,getterToken )
+            val pushModel = PushNotification(notiModel, getterToken)
 
-                 testPush(pushModel)
+            testPush(pushModel)
 
-                  mAlertDialog.dismiss()
+            mAlertDialog.dismiss()
         }
 
-        //message
-            // 받는 사람 uid
-                //Message
-                    // 누가보냈는지
+        // message
+        // 받는 사람 uid
+        // Message
+        // 누가 보냈는지
+
     }
+
+
 }

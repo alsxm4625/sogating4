@@ -13,12 +13,14 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 class MyMsgActivity : AppCompatActivity() {
-    private  val TAG ="MyMsgActivity"
+
+    private val TAG = "MyMsgActivity"
 
     lateinit var listviewAdapter : MsgAdapter
     val msgList = mutableListOf<MsgModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_msg)
 
@@ -26,25 +28,27 @@ class MyMsgActivity : AppCompatActivity() {
 
         listviewAdapter = MsgAdapter(this, msgList)
         listview.adapter = listviewAdapter
+
         getMyMsg()
+
     }
 
 
     private fun getMyMsg(){
+
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                for (dataModel in dataSnapshot.children) {
+                msgList.clear()
 
-                    msgList.clear()
+                for (dataModel in dataSnapshot.children) {
 
                     val msg = dataModel.getValue(MsgModel::class.java)
                     msgList.add(msg!!)
                     Log.d(TAG, msg.toString())
 
                 }
-
-                msgList.reverse() //최신 순
+                msgList.reverse()
 
                 listviewAdapter.notifyDataSetChanged()
 
@@ -52,10 +56,11 @@ class MyMsgActivity : AppCompatActivity() {
 
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
-                Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
         FirebaseRef.userMsgRef.child(FirebaseAuthUtils.getUid()).addValueEventListener(postListener)
 
     }
+
 }
