@@ -17,40 +17,40 @@
         <activity
             android:name=".message.MyLikeListActivity"
             android:theme="@style/Theme.AppCompat.Light"
-            android:exported="false" />
+            android:exported="true" />
 
         <activity
             android:name=".message.ListViewAdapter"
             android:theme="@style/Theme.AppCompat.Light"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".setting.SettingActivity"
             android:theme="@style/Theme.AppCompat.Light"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".setting.MyPageActivity"
             android:theme="@style/Theme.AppCompat.Light"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.AppCompat.Light"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".auth.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".auth.JoinActivity"
             android:theme="@style/Theme.AppCompat.Light"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".auth.IntroActivity"
             android:theme="@style/Theme.AppCompat.Light"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".slider.CardStackAdapter"
             android:theme="@style/Theme.AppCompat.Light"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -61,6 +61,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".message.MyMsgActivity"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:exported="true" />
     </application>
 
 </manifest>

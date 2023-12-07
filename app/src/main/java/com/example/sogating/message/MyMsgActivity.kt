@@ -12,6 +12,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
+
+
 class MyMsgActivity : AppCompatActivity() {
 
     private val TAG = "MyMsgActivity"
@@ -20,7 +22,7 @@ class MyMsgActivity : AppCompatActivity() {
     val msgList = mutableListOf<MsgModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        Log.d(TAG, "MyMsgActivity onCreate()")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_msg)
 
@@ -35,18 +37,22 @@ class MyMsgActivity : AppCompatActivity() {
 
 
     private fun getMyMsg(){
-
+        Log.d(TAG, "getMyMsg called")
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                if (dataSnapshot.exists()){
+
+                }
 
                 msgList.clear()
 
                 for (dataModel in dataSnapshot.children) {
-
                     val msg = dataModel.getValue(MsgModel::class.java)
-                    msgList.add(msg!!)
-                    Log.d(TAG, msg.toString())
-
+                    if (msg != null) {
+                        msgList.add(msg!!)
+                        Log.d(TAG, msg.toString())
+                    }
                 }
                 msgList.reverse()
 
@@ -64,3 +70,4 @@ class MyMsgActivity : AppCompatActivity() {
     }
 
 }
+

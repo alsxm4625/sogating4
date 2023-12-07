@@ -3,6 +3,7 @@ package com.example.sogating.setting
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import com.example.sogating.R
 import com.example.sogating.auth.IntroActivity
@@ -30,7 +31,7 @@ class SettingActivity : AppCompatActivity() {
 
         val myMsg = findViewById<Button>(R.id.myMsg)
         myMsg.setOnClickListener {
-
+            Log.d("SettingActivity", "myMsg clicked...")
             val intent = Intent(this, MyMsgActivity::class.java)
             startActivity(intent)
 

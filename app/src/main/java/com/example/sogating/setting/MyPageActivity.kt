@@ -37,7 +37,6 @@ class MyPageActivity : AppCompatActivity() {
 
         val myImage = findViewById<ImageView>(R.id.profile_img)
 
-        val myUid = findViewById<TextView>(R.id.myUid)
         val myNickname = findViewById<TextView>(R.id.myNickname)
         val myAge = findViewById<TextView>(R.id.myAge)
         val myCity = findViewById<TextView>(R.id.myCity)
@@ -48,9 +47,9 @@ class MyPageActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 Log.d(TAG, dataSnapshot.toString())
+                Log.d(TAG, "mypage called")
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
-                myUid.text = data!!.uid
                 myNickname.text = data!!.nickname
                 myAge.text = data!!.age
                 myCity.text = data!!.city

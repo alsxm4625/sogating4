@@ -23,6 +23,7 @@ import com.example.sogating.slider.CardStackAdapter
 import com.example.sogating.utils.FirebaseAuthUtils
 import com.example.sogating.utils.FirebaseRef
 import com.bumptech.glide.Glide
+import com.example.sogating.message.MyMsgActivity
 import com.example.sogating.utils.MyInfo
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
